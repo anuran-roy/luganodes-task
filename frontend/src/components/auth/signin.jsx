@@ -53,12 +53,13 @@ export default function SignIn() {
 
         writeToLocalStorage('loginDetails', { mode: "username_password", walletAddress: resp.address })
 
-
         if (resp.data.loginSuccess.accountNew === true && resp.data.loginSuccess.success === false) {
-            navigate("/onboarding");
+            toast.success("Login Successful! New user detected, onboarding...");
+            setTimeout(() => navigate("/onboarding"), 2500);
         }
         else if (resp.data.loginSuccess.accountNew === false && resp.data.loginSuccess.success === true) {
-            navigate("/user");
+            toast.success("Login Successful! Redirecting to your dashboard...");
+            setTimeout(() => navigate("/user"), 2500);
         }
     };
 
@@ -117,13 +118,13 @@ export default function SignIn() {
             } else if (resp.loginSuccess?.success && resp.loginSuccess?.accountNew) {
                 navigate("/onboarding");
             }
-        }, 5000);
+        }, 2500);
     };
 
     return (
         <div className="py-2 my-3 mx-3 px-2 top-0 bottom-0 h-full align-middle overflow-hidden">
             <h3 className="text-3xl font-bold align-center w-screen text-center">Login</h3>
-            <ToastContainer autoClose={5000} />
+            <ToastContainer autoClose={2500} />
             <div id="auth-panel" className="flex-row items-center objects-center justify-center w-screen self-center text-center my-3" align="center">
                 <div id="logo" className="w-screen justify-center objects-center items-center">
                 <center><img src="https://pbs.twimg.com/profile_images/1610516584761798662/ljYHrVEV_400x400.jpg" className="self-center image-center "></img></center>

@@ -9,7 +9,7 @@ This is the (broken) submission for the LugaNodes SDE Development Task 4. The Ta
 - [x] JWT-Based Session Management
 - [x] Secure Storage of Credentials
 - [x] Authentication Portability
-- [ ] User Dashboard
+- [x] User Dashboard
 - [ ] Account Recovery Mechanism
 - [ ] Google OAuth Integration
 
