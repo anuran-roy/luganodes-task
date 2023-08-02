@@ -46,6 +46,7 @@ app.post('/request-message', async (req, res) => {
             ...config,
         });
 
+        console.log(message);
         res.status(200).json(message);
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -68,19 +69,22 @@ app.post('/verify', async (req, res) => {
             ).raw;
 
             // const user = { address, profileId, signature };
-            const user = JSON.parse(JSON.stringify(await User.findOne({ walletAddress: address }).lean()));
-
-            // create JWT token
-            const token = jwt.sign(user, process.env.AUTH_SECRET);
-
-            // set JWT cookie
-            res.cookie('jwt', token, {
-                httpOnly: true,
-            });
+            const user = JSON.parse(JSON.stringify(await User.findOne({ walletAddress: address })));
             let loginSuccess = { accountNew: false, success: false };
 
-            console.log(user);
             if (await userExists(user)) {
+                console.log(user);
+                console.log(typeof user);
+                // create JWT token
+                const token = jwt.sign(user, process.env.AUTH_SECRET);
+
+                // set JWT cookie
+                res.cookie('jwt', token, {
+                    httpOnly: true,
+                });
+
+                console.log(user);
+
                 loginSuccess.success = true;
 
             } else {
@@ -114,6 +118,7 @@ app.get('/authenticate', async (req, res) => {
 app.post("/signup", async (req, res) => {
     try {
         let newUser = req.body.user;
+        console.log("New User Details=", newUser);
         createUser(newUser);
         res.status(200).json({ success: true });
 

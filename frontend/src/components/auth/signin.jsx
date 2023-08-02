@@ -62,8 +62,9 @@ export default function SignIn() {
 
         let resp = res.data;
         // redirect to /user
+        console.log("Login details received = ");
         console.log(resp);
-        writeToLocalStorage('loginDetails', {mode: "wallet", walletAddress: resp.user.address})
+        writeToLocalStorage('loginDetails', {mode: "wallet", walletAddress: resp.address})
         if (resp.loginSuccess?.success && !resp.loginSuccess?.accountNew) {
             navigate("/user");
         } else if (resp.loginSuccess?.success && resp.loginSuccess?.accountNew) {
