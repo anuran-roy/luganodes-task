@@ -1,6 +1,6 @@
 # Luganodes Task
 
-This is the (broken) submission for the LugaNodes SDE Development Task 4. The Task was to allow for a seamless authentication process for the user, and to allow for the user to be able to view their profile information. The authentication should support Web3 Authentication using MetaMask Wallet as well as Username Password.
+This is the submission for the LugaNodes SDE Development Task 4. The Task was to allow for a seamless authentication process for the user, and to allow for the user to be able to view their profile information. The authentication should support Web3 Authentication using MetaMask Wallet as well as Username Password.
 
 ## Features
 
