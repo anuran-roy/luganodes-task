@@ -11,14 +11,17 @@ const userSchema = new mongoose.Schema({
     walletAddress: {
         type: String,
         required: false,
+        unique: true,
     },
-    emailAccount: {
+    email: {
         type: String,
         required: false,
+        unique: true,
     },
     username: {
         type: String,
         required: false,
+        unique: true
     },
     passwordSalt: {
         type: String,

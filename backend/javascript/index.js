@@ -104,14 +104,14 @@ app.post('/verify', async (req, res) => {
             console.log(credentials);
             let foundUser = await userExists({ username: credentials.username });
             console.log("User found?", foundUser);
-            if (foundUser !== undefined) {
+            if (foundUser !== undefined && foundUser !== null) {
                 console.log("User exists. Searching for users...");
                 let getUser = await User.findOne({ username: credentials.username });
                 let getUserLean = await User.findOne({ username: credentials.username }).lean();
                 console.log("Found user = ", getUser);
                 let getHash = await hashPassword(credentials.password);
                 console.log("Generated hash: ", getHash);
-                if (await comparePassword(credentials.password, getUser.passwordHash)) {
+                if (await comparePassword(credentials.password, getUser?.passwordHash)) {
                     console.log("User matches!");
                     const token = await jwt.sign(getUserLean, process.env.AUTH_SECRET);
 
@@ -154,15 +154,14 @@ app.post('/verify', async (req, res) => {
                         loginSuccess: { success: false, accountNew: false },
                     });
                 }
-
+            } else {
+                console.log("User not found, creating...");
+                // createUser({ username: credentials.username, passwordHash: await hashPassword(credentials.password) });
+                res.status(200).json({
+                    user: null,
+                    loginSuccess: { success: false, accountNew: true },
+                });
             }
-        } else {
-            console.log("User not found, creating...");
-            createUser({ username: credentials.username, passwordHash: await hashPassword(credentials.password) });
-            res.status(200).json({
-                user: null,
-                loginSuccess: { success: true, accountNew: true },
-            });
         }
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -185,6 +184,10 @@ app.get('/authenticate', async (req, res) => {
 app.post("/signup", async (req, res) => {
     try {
         let newUser = req.body.user;
+        if (newUser.password !== undefined) {
+            newUser.passwordHash = await hashPassword(newUser.password);
+            delete newUser.password;
+        }
         console.log("New user = ", newUser)
         const ifUserExists = await userExists(newUser);
         console.log("Does user already exist?", ifUserExists);

@@ -19,6 +19,10 @@ export default function SignIn() {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     
+
+    // if (document.cookie.includes("jwt")) {
+    //     navigate("/user");
+    // }
     const handleGoogleAuth = () => {
         console.log("Logging in with Google auth - gmail account")
     };
@@ -46,7 +50,16 @@ export default function SignIn() {
 
         console.log("Login details received = ");
         console.log(resp);
-        navigate("/user");
+
+        writeToLocalStorage('loginDetails', { mode: "username_password", walletAddress: resp.address })
+
+
+        if (resp.data.loginSuccess.accountNew === true && resp.data.loginSuccess.success === false) {
+            navigate("/onboarding");
+        }
+        else if (resp.data.loginSuccess.accountNew === false && resp.data.loginSuccess.success === true) {
+            navigate("/user");
+        }
     };
 
     const handleWeb3Auth = async () => {

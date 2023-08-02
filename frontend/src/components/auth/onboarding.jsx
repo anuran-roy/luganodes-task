@@ -17,7 +17,7 @@ export default function Onboarding() {
             `http://localhost:4000/signup`,
             {
                 user: userData
-            }
+            }, { withCredentials: true}
         )
 
         if (resp.status == 200 && resp.data.success === true) {
@@ -58,7 +58,7 @@ export default function Onboarding() {
                 type="text" name="walletAddress" id="walletAddress"
                 // disabled={userData?.walletAddress !== undefined}
                 value={userData?.walletAddress}
-                required={true}
+                required={readFromLocalStorage('loginDetails').mode === 'wallet' ? true : false}
                 onChange={(event) => { setUserData({ ...userData, walletAddress: event.target.value }) }}
             />
             <br />
@@ -70,6 +70,16 @@ export default function Onboarding() {
                 value={userData?.username}
                 required={true}
                 onChange={(event) => { setUserData({ ...userData, username: event.target.value }) }}
+            />
+            <br />
+            <label htmlFor="password">Password</label>
+            <input
+                className="px-3 mx-3 py-2 my-2 text-gray-500 border-2 rounded-lg"
+                type="password" name="password" id="password"
+                // disabled={userData?.walletAddress !== undefined}
+                value={userData?.password}
+                required={readFromLocalStorage('loginDetails').mode === 'username_password' ? true : false}
+                onChange={(event) => { setUserData({ ...userData, password: event.target.value }) }}
             />
             <br />
             <button
