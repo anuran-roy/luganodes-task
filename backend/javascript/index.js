@@ -8,6 +8,8 @@ const connectToDb = require("./db/connect");
 const createUser = require("./db/helpers/create_user");
 const userExists = require('./db/helpers/user_exists');
 const User = require("./db/models/user");
+const { hashPassword, comparePassword } = require("./utils/passwordUtils");
+
 // to use our .env variables
 require('dotenv').config();
 
@@ -97,7 +99,63 @@ app.post('/verify', async (req, res) => {
             res.status(200).json({ user: user, loginSuccess: loginSuccess });
         }
         else if (loginMode === "username_password") {
+            const credentials = req.body.credentials;
 
+            console.log(credentials);
+            let foundUser = await userExists({ username: credentials.username });
+            console.log("User found?", foundUser);
+            if (foundUser !== undefined) {
+                console.log("User exists. Searching for users...");
+                let getUser = await User.findOne({ username: credentials.username });
+                let getUserLean = await User.findOne({ username: credentials.username }).lean();
+                console.log("Found user = ", getUser);
+                let getHash = await hashPassword(credentials.password);
+                console.log("Generated hash: ", getHash);
+                if (comparePassword(credentials.password, getUser.passwordHash)) {
+                    console.log("User matches!");
+                    const token = await jwt.sign(getUserLean, process.env.AUTH_SECRET);
+
+                    console.log("Token = ", token)
+                    // set JWT cookie
+                    console.log("Setting JWT cookie")
+                    res.status(200).cookie('jwt', token, {
+                        httpOnly: true,
+                    })
+                    //     .json({
+                    //     user: JSON.parse(JSON.stringify(getUser)),
+                    //     loginSuccess: { success: true, accountNew: false },
+                    // });
+                    console.log("JWT cookie set");
+                } else if (getUser.passwordHash === null || getUser.passwordHash === "" || getUser.passwordHash === undefined) {
+                    console.log("New login method detected. Joining auth methods...");
+
+                    let hashedPwd = await hashPassword(credentials.password);
+                    getUser.passwordHash = hashedPwd;
+                    await getUser.save();
+
+                    const token = jwt.sign(getUserLean, process.env.AUTH_SECRET);
+                    res.status(200).cookie('jwt', token, {
+                        httpOnly: true,
+                    }).json({
+                        user: JSON.parse(JSON.stringify(getUserLean)),
+                        loginSuccess: { success: true, accountNew: false },
+                    });
+                } else {
+                    console.log("User found, but passwords don't match.")
+                    res.status(200).json({
+                        user: null,
+                        loginSuccess: { success: false, accountNew: false },
+                    });
+                }
+
+            }
+        } else {
+            console.log("User not found, creating...");
+            createUser({ username: credentials.username, passwordHash: await hashPassword(credentials.password) });
+            res.status(200).json({
+                user: null,
+                loginSuccess: { success: true, accountNew: true },
+            });
         }
     } catch (error) {
         res.status(400).json({ error: error.message });

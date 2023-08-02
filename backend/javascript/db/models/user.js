@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         required: false,
     },
+    passwordSalt: {
+        type: String,
+        required: false,
+    },
     passwordHash: {
         type: String,
         required: false,

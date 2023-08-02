@@ -6,7 +6,7 @@ const userExists = async (userObject) => {
     if (userObject === null || userObject === undefined) {
         return false;
     }
-    let resp = await User.exists({ emailAccount: userObject.emailAccount, walletAddress: userObject.walletAddress })
+    let resp = await User.exists(userObject)
     return resp;
 }
 
