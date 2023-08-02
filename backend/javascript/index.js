@@ -80,7 +80,7 @@ app.post('/verify', async (req, res) => {
             let loginSuccess = { accountNew: false, success: false };
 
             console.log(user);
-            if (userExists(user)) {
+            if (await userExists(user)) {
                 loginSuccess.success = true;
 
             } else {

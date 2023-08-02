@@ -1,10 +1,10 @@
 const mongoose = require("mongoose");
 const User = require("../models/user");
 
-const userExists = (userObject) => {
+const userExists = async (userObject) => {
 
-    User.exists({ emailAccount: userObject.emailAccount, walletAddress: userObject.walletAddress })
-    return false;
+    let resp = await User.exists({ emailAccount: userObject.emailAccount, walletAddress: userObject.walletAddress })
+    return resp;
 }
 
 module.exports = userExists;
