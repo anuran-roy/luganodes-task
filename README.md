@@ -31,7 +31,9 @@ For Web3 Authentication, we use Moralis. We need to get a Moralis API Key and ad
 
 ### Running the Frontend
 
-**DO NOTE** that the frontend runs on port 3001 and not 3000.
+**DO NOTE** that the frontend runs on port 3001 and not 3000, and the backend runs at port 4000.
+
+You first need to define the environment variables in the `.env` file. The `.env` file can be created from the `.env.example` file. The `REACT_APP_BACKEND_URL` variable should be set to the URL of the backend server.
 
 To run the frontend, just run the following commands:
 
@@ -42,6 +44,16 @@ npm start
 ```
 
 ### Running the Backend
+
+You first need to define the environment variables in the `.env` file. The `.env` file can be created from the `.env.example` file. A sample .env file would look like this:
+
+```bash
+APP_DOMAIN=luganodes.work
+MORALIS_API_KEY=YOUR_MORALIS_API_KEY
+REACT_URL=http://localhost:3001
+AUTH_SECRET=1234
+DB_STRING=MONGODB_CONNECTION_STRING
+```
 
 The backend can be run using the following command:
 
