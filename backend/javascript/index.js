@@ -121,10 +121,10 @@ app.post('/verify', async (req, res) => {
                     res.status(200).cookie('jwt', token, {
                         httpOnly: true,
                     })
-                    //     .json({
-                    //     user: JSON.parse(JSON.stringify(getUser)),
-                    //     loginSuccess: { success: true, accountNew: false },
-                    // });
+                    res.status(200).json({
+                        user: JSON.parse(JSON.stringify(getUser)),
+                        loginSuccess: { success: true, accountNew: false },
+                    });
                     console.log("JWT cookie set");
                 } else if (getUser.passwordHash === null || getUser.passwordHash === "" || getUser.passwordHash === undefined) {
                     console.log("New login method detected. Joining auth methods...");
@@ -136,7 +136,8 @@ app.post('/verify', async (req, res) => {
                     const token = jwt.sign(getUserLean, process.env.AUTH_SECRET);
                     res.status(200).cookie('jwt', token, {
                         httpOnly: true,
-                    }).json({
+                    });
+                    res.status(200).json({
                         user: JSON.parse(JSON.stringify(getUserLean)),
                         loginSuccess: { success: true, accountNew: false },
                     });
