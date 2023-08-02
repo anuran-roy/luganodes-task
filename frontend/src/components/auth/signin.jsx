@@ -25,6 +25,7 @@ export default function SignIn() {
     // }
     const handleGoogleAuth = () => {
         console.log("Logging in with Google auth - gmail account")
+        writeToLocalStorage('loginDetails', { user: {mode: "google"} })
     };
 
     const handleTraditionalAuth = async (username, password) => {
@@ -51,7 +52,7 @@ export default function SignIn() {
         console.log("Login details received = ");
         console.log(resp);
 
-        writeToLocalStorage('loginDetails', { mode: "username_password", walletAddress: resp.address })
+        writeToLocalStorage('loginDetails', { user: {mode: "username_password"} })
 
         if (resp.data.loginSuccess.accountNew === true && resp.data.loginSuccess.success === false) {
             toast.success("Login Successful! New user detected, onboarding...");
@@ -105,7 +106,7 @@ export default function SignIn() {
         // redirect to /user
         console.log("Login details received = ");
         console.log(resp);
-        writeToLocalStorage('loginDetails', { mode: "wallet", walletAddress: resp.address })
+        writeToLocalStorage('loginDetails', {user: { mode: "wallet", walletAddress: resp.address} })
 
         if (resp.loginSuccess?.success && !resp.loginSuccess?.accountNew) {
             toast.success("Login Successful! Redirecting to your dashboard...");

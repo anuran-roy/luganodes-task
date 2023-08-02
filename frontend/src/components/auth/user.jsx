@@ -33,15 +33,13 @@ export default function User() {
     }, []);
 
     async function signOut() {
-        let loginMode = readFromLocalStorage('loginDetails').mode;
-        if ( loginMode === 'wallet') {
-            await axios(
-                // `${process.env.REACT_APP_SERVER_URL}/logout`,
-                `http://localhost:4000/logout`,
-                {
-                    withCredentials: true,
-                });
-        }
+        await axios(
+            // `${process.env.REACT_APP_SERVER_URL}/logout`,
+            `http://localhost:4000/logout`,
+            {
+                withCredentials: true,
+            }
+        );
         navigate('/signin');
     }
 
