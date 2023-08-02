@@ -48,7 +48,7 @@ app.post('/request-message', async (req, res) => {
             ...config,
         });
 
-        console.log(message);
+        // console.log(message);
         res.status(200).json(message);
     } catch (error) {
         res.status(400).json({ error: error.message });
@@ -111,7 +111,7 @@ app.post('/verify', async (req, res) => {
                 console.log("Found user = ", getUser);
                 let getHash = await hashPassword(credentials.password);
                 console.log("Generated hash: ", getHash);
-                if (comparePassword(credentials.password, getUser.passwordHash)) {
+                if (await comparePassword(credentials.password, getUser.passwordHash)) {
                     console.log("User matches!");
                     const token = await jwt.sign(getUserLean, process.env.AUTH_SECRET);
 
@@ -120,11 +120,11 @@ app.post('/verify', async (req, res) => {
                     console.log("Setting JWT cookie")
 
                     res.cookie('jwt', token, {
-                        httpOnly: true,
+                        httpOnly: false,
                     });
 
                     console.log("Sending response...")
-                    res.status(200).json({
+                    await res.status(200).send({
                         user: JSON.parse(JSON.stringify(getUser)),
                         loginSuccess: { success: true, accountNew: false },
                     });
@@ -142,6 +142,7 @@ app.post('/verify', async (req, res) => {
                         httpOnly: true,
                     });
 
+                    console.log("Sent cookie...")
                     res.status(200).json({
                         user: JSON.parse(JSON.stringify(getUserLean)),
                         loginSuccess: { success: true, accountNew: false },
