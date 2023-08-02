@@ -39,13 +39,23 @@ export default function Onboarding() {
             }
         }}>
             <label htmlFor="firstname">First Name</label>
-            <input type="text" name="firstname" id="firstname" onChange={(event) => { setUserData({ ...userData, first_name: event.target.value }) }} value={userData?.first_name} required={true} />
+            <input
+                className="px-3 mx-3 py-2 my-2 text-gray-500 border-2 rounded-lg"
+                type="text" name="firstname"
+                id="firstname"
+                onChange={(event) => {
+                    setUserData({ ...userData, first_name: event.target.value })
+                }} value={userData?.first_name} required={true} />
             <br />
             <label htmlFor="lastname">Last Name</label>
-            <input type="text" name="lastname" id="lastname" onChange={(event) => { setUserData({ ...userData, last_name: event.target.value }) }} value={userData?.last_name} required={true}/>
+            <input
+                className="px-3 mx-3 py-2 my-2 text-gray-500 border-2 rounded-lg"
+                type="text" name="lastname" id="lastname" onChange={(event) => { setUserData({ ...userData, last_name: event.target.value }) }} value={userData?.last_name} required={true} />
             <br />
             <label htmlFor="walletAddress">Wallet Address</label>
-            <input type="text" name="walletAddress" id="walletAddress"
+            <input
+                className="px-3 mx-3 py-2 my-2 text-gray-500 border-2 rounded-lg"
+                type="text" name="walletAddress" id="walletAddress"
                 // disabled={userData?.walletAddress !== undefined}
                 value={userData?.walletAddress}
                 required={true}
@@ -53,14 +63,18 @@ export default function Onboarding() {
             />
             <br />
             <label htmlFor="username">Username</label>
-            <input type="text" name="username" id="username"
+            <input
+                className="px-3 mx-3 py-2 my-2 text-gray-500 border-2 rounded-lg"
+                type="text" name="username" id="username"
                 // disabled={userData?.walletAddress !== undefined}
                 value={userData?.username}
                 required={true}
                 onChange={(event) => { setUserData({ ...userData, username: event.target.value }) }}
             />
             <br />
-            <button type="submit">Sign Up</button>
+            <button
+                className="px-3 mx-3 py-2 my-2 text-white bg-blue-500 hover:bg-blue-700 rounded-md"
+                type="submit">Sign Up</button>
         </form>
     </div>);
 }

@@ -29,16 +29,23 @@ export default function SignIn() {
         console.log("Username", username);
         console.log("Password", password);
 
+        console.log("Sending request through Axios")
         let resp = await axios.post(
             "http://localhost:4000/verify?loginMode=username_password", {
                 credentials: {
                     username, 
                     password
                 }
-            }
+        },
+            // {
+            //     headers: {
+            //         "content-type": "application/json",
+            //     },
+            // }
         )
 
-
+        console.log("Login details received = ");
+        console.log(resp);
     };
 
     const handleWeb3Auth = async () => {
@@ -108,15 +115,15 @@ export default function SignIn() {
                     className="flex flex-col items-center justify-center w-100 self-center text-center my-3 py-5"
                     onSubmit={async (event) => {
                         event.preventDefault();
-                        await handleTraditionalAuth(username, password);
+                        let resp = await handleTraditionalAuth(username, password);
                     }
                 }>
                     <div className="flex flex-row px-3 mx-3 my-2">
-                        <label for="username" className="px-3 mx-3 py-2 my-2 text-gray-700">Username: </label>
+                        <label htmlFor="username" className="px-3 mx-3 py-2 my-2 text-gray-700">Username: </label>
                         <input type="text" name="username" id="username" placeholder="Username" className="px-3 mx-3 py-2 my-2 text-gray-500 border-2 rounded-lg" onChange={(event) => { setUsername(event.target.value)}} value={username} required/>
                     </div>
                     <div className="flex flex-row px-3 mx-3 my-2">
-                        <label for="password" className="px-3 mx-3 py-2 my-2 text-gray-700">Password: </label>
+                        <label htmlFor="password" className="px-3 mx-3 py-2 my-2 text-gray-700">Password: </label>
                         <input type="password" name="password" id="password" placeholder="Password" className="px-3 mx-3 py-2 my-2 text-gray-500 border-2 rounded-lg" value={password} onChange={(event) => { setPassword(event.target.value)}} required/>
                     </div>
                     <button className="px-3 mx-3 py-2 my-2 text-white bg-blue-500 hover:bg-blue-700 rounded-md" type="submit">Enter</button>
