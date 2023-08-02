@@ -4,7 +4,14 @@ This is the (broken) submission for the LugaNodes SDE Development Task 4. The Ta
 
 ## Features
 
-- Seamless sign-in
+- [x] User Registration and Login
+- [x] Web3 Authentication Integration
+- [x] JWT-Based Session Management
+- [x] Secure Storage of Credentials
+- [x] Authentication Portability
+- [ ] User Dashboard
+- [ ] Account Recovery Mechanism
+- [ ] Google OAuth Integration
 
 ## Tech Stack
 
