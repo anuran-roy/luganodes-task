@@ -27,8 +27,8 @@ export default function Onboarding() {
         }
     } 
 
-    return (<>
-        <h3 id="heading">Welcome to onboarding</h3>
+    return (<div className="py-2 my-3 mx-3 px-2">
+        <h3 id="heading" className="text-3xl font-bold align-center w-screen text-center">Welcome to onboarding</h3>
         <form action="submit" onSubmit={async (event) => {
             event.preventDefault();
             saveData();
@@ -52,7 +52,15 @@ export default function Onboarding() {
                 onChange={(event) => { setUserData({ ...userData, walletAddress: event.target.value }) }}
             />
             <br />
+            <label htmlFor="username">Username</label>
+            <input type="text" name="username" id="username"
+                // disabled={userData?.walletAddress !== undefined}
+                value={userData?.username}
+                required={true}
+                onChange={(event) => { setUserData({ ...userData, username: event.target.value }) }}
+            />
+            <br />
             <button type="submit">Sign Up</button>
         </form>
-    </>);
+    </div>);
 }
