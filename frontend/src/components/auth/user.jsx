@@ -22,10 +22,12 @@ export default function User() {
                 const { iat, ...authData } = data; // remove unimportant iat value
 
                 setSession(authData);
-                let newObject = { mode: "wallet", walletAddress: authData.address }
+                console.log("Writing auth data to local storage");
+                let newObject = {user: { mode: "wallet", walletAddress: authData.address }}
                 writeToLocalStorage('loginDetails', newObject);
             })
             .catch((err) => {
+                console.log(err);
                 navigate('/signin');
             });
     }, []);

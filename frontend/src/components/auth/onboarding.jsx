@@ -45,7 +45,12 @@ export default function Onboarding() {
             <input type="text" name="lastname" id="lastname" onChange={(event) => { setUserData({ ...userData, last_name: event.target.value }) }} value={userData?.last_name} required={true}/>
             <br />
             <label htmlFor="walletAddress">Wallet Address</label>
-            <input type="text" name="walletAddress" id="walletAddress" disabled={userData?.walletAddress !== undefined} value={userData?.walletAddress} required={true}/>
+            <input type="text" name="walletAddress" id="walletAddress"
+                // disabled={userData?.walletAddress !== undefined}
+                value={userData?.walletAddress}
+                required={true}
+                onChange={(event) => { setUserData({ ...userData, walletAddress: event.target.value }) }}
+            />
             <br />
             <button type="submit">Sign Up</button>
         </form>

@@ -36,7 +36,7 @@ const config = {
 // request message to be signed by client
 app.post('/request-message', async (req, res) => {
     console.log("Received request message");
-    console.log(req.body);
+    // console.log(req.body);
     const { address, chain, network } = req.body;
 
     try {
@@ -69,7 +69,9 @@ app.post('/verify', async (req, res) => {
             ).raw;
 
             // const user = { address, profileId, signature };
+            console.log("Received address = ", address);
             const user = JSON.parse(JSON.stringify(await User.findOne({ walletAddress: address })));
+            console.log("Found User = ", user);
             let loginSuccess = { accountNew: false, success: false };
 
             if (await userExists(user)) {
@@ -118,9 +120,16 @@ app.get('/authenticate', async (req, res) => {
 app.post("/signup", async (req, res) => {
     try {
         let newUser = req.body.user;
-        console.log("New User Details=", newUser);
-        createUser(newUser);
-        res.status(200).json({ success: true });
+        console.log("New user = ", newUser)
+        const ifUserExists = await userExists(newUser);
+        console.log("Does user already exist?", ifUserExists);
+        if (!ifUserExists) {
+            console.log("New User Details=", newUser);
+            createUser(newUser);
+            res.status(200).json({ success: true, message: "New account created successfully. Please login." });
+        } else {
+            res.status(200).json({ success: false, message: "Account already exists. Please login" });
+        }
 
     } catch (err) {
         console.log(err);

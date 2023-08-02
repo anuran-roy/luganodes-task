@@ -9,10 +9,10 @@ const createUser = (userObject) => {
                 console.log("User created successfully");
                 console.log(result)
             }
-        )
-
-    console.log("Failed to create new user. Reason:");
-    console.log(err);
+        ).catch((err) => {
+            console.log("Failed to create new user. Reason:");
+            console.log(err);
+        })
 }
 
 module.exports = createUser;
