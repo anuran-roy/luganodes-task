@@ -1,9 +1,10 @@
 const mongoose = require("mongoose");
+require("dotenv").config("../.env");
 
 const connectToDb = async () => {
     try {
         console.log("Connecting to Database...");
-        await mongoose.connect("mongodb://localhost:27017/luganodes", {
+        await mongoose.connect(process.env.DB_STRING, {
             useNewUrlParser: true,
             useUnifiedTopology: true
         });
